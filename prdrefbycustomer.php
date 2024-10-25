@@ -559,42 +559,6 @@ if ($id > 0 || $ref) {
 						// Supplier ref
 						print '<td class="tdoverflowmax150">'.$productfourn->ref_customer_prd.'</td>';
 
-						// // Date modification
-						// if (!empty($arrayfields['pfp.tms']['checked'])) {
-						// 	print '<td class="right nowraponall">';
-						// 	print dol_print_date(($productfourn->fourn_date_modification ? $productfourn->fourn_date_modification : $productfourn->date_modification), "dayhour");
-						// 	print '</td>';
-						// }
-
-						// Extrafields
-						// if (!empty($extralabels)) {
-						// 	$sql  = "SELECT";
-						// 	$sql .= " fk_object";
-						// 	foreach ($extralabels as $key => $value) {
-						// 		$sql .= ", ".$key;
-						// 	}
-						// 	$sql .= " FROM ".MAIN_DB_PREFIX."product_fournisseur_price_extrafields";
-						// 	$sql .= " WHERE fk_object = ".((int) $productfourn->product_fourn_price_id);
-						// 	$resql = $db->query($sql);
-						// 	if ($resql) {
-						// 		if ($db->num_rows($resql) != 1) {
-						// 			foreach ($extralabels as $key => $value) {
-						// 				if (!empty($arrayfields['ef.'.$key]['checked']) && !empty($extrafields->attributes["product_fournisseur_price"]['list'][$key]) && $extrafields->attributes["product_fournisseur_price"]['list'][$key] != 3) {
-						// 					print "<td></td>";
-						// 				}
-						// 			}
-						// 		} else {
-						// 			$obj = $db->fetch_object($resql);
-						// 			foreach ($extralabels as $key => $value) {
-						// 				if (!empty($arrayfields['ef.'.$key]['checked']) && !empty($extrafields->attributes["product_fournisseur_price"]['list'][$key]) && $extrafields->attributes["product_fournisseur_price"]['list'][$key] != 3) {
-						// 					print '<td align="right">'.$extrafields->showOutputField($key, $obj->{$key}, '', 'product_fournisseur_price')."</td>";
-						// 				}
-						// 			}
-						// 		}
-						// 		$db->free($resql);
-						// 	}
-						// }
-
 						// Modify-Remove
 						print '<td class="center nowraponall">';
 

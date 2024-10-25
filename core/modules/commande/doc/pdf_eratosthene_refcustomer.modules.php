@@ -679,10 +679,17 @@ class pdf_eratosthene_refcustomer extends ModelePDFCommandes
 					// Custom reference for customer
 					if ($this->getColumnStatus('customref')) {
 						$sql = 'SELECT * FROM '.MAIN_DB_PREFIX.'product_ref_by_customer';
-						$sql .= ' WHERE fk_soc ='.$object->thirdparty->id.' AND fk_product ='.$object->lines[$i]->rowid;
+						$sql .= ' WHERE fk_soc ='.$object->thirdparty->id.' AND fk_product ='.$object->lines[$i]->fk_product;
 						$sqlres = $this->db->query($sql);
-						$ref = $this->db->fetch_object($sqlres);
-						$this->printStdColumnContent($pdf, $curY, 'customref', $ref->ref_customer_prd);
+						
+						$refcustom = '';
+						if (!empty($sqlres)) {
+							$ref = $this->db->fetch_object($sqlres);
+							if (!empty($ref->ref_customer_prd)) {
+								$refcustom = $ref->ref_customer_prd;
+							}
+						}
+						$this->printStdColumnContent($pdf, $curY, 'customref', $refcustom);
 						$nexY = max($pdf->GetY(), $nexY);
 					}
 

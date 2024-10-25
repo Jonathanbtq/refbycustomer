@@ -105,8 +105,7 @@ class ActionsRefbycustomer extends CommonHookActions
 		global $conf, $user, $langs;
 
 		$error = 0; // Error counter
-
-		var_dump($conf->global);
+		
 		/* print_r($parameters); print_r($object); echo "action: " . $action; */
 		// @phan-suppress-next-line PhanPluginEmptyStatementIf
 		if (in_array($parameters['currentcontext'], array('somecontext1', 'somecontext2'))) {	    // do something only for the context 'somecontext1' or 'somecontext2'
