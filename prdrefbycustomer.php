@@ -53,7 +53,7 @@ if (isModEnabled('barcode')) {
 global $langs;
 
 // Load translation files required by the page
-$langs->loadLangs(['main', 'dict', 'bills', 'products', 'companies', 'propal', 'orders', 'contracts', 'interventions', 'deliveries', 'sendings', 'projects', 'productbatch', 'infraspackplus@infraspackplus', 'mavis@mavis']);
+$langs->loadLangs(['main', 'dict', 'bills', 'products', 'companies', 'propal', 'orders', 'contracts', 'interventions', 'deliveries', 'sendings', 'projects', 'productbatch', 'infraspackplus@infraspackplus', 'refbycustomer@refbycustomer']);
 
 $id = GETPOST('id', 'int');
 $ref = GETPOST('ref', 'alpha');
@@ -445,7 +445,7 @@ if ($id > 0 || $ref) {
 				$reshook = $hookmanager->executeHooks('addMoreActionsButtons', $parameters, $object, $action); // Note that $action and $object may have been modified by hook
 				if (empty($reshook)) {
 					if ($usercancreate) {
-						print '<a class="butAction" href="'.DOL_URL_ROOT.'/custom/mavis/prdrefbycustomer.php?id='.((int) $object->id).'&action=create_price&token='.newToken().'">';
+						print '<a class="butAction" href="'.DOL_URL_ROOT.'/custom/refbycustomer/prdrefbycustomer.php?id='.((int) $object->id).'&action=create_price&token='.newToken().'">';
 						print ''.$langs->trans('AddSupplierRef').'</a>';
 					}
 				}
@@ -470,7 +470,7 @@ if ($id > 0 || $ref) {
 				$filter = ['prod.rowid' => $id];
 				$product_list = $prodcustref->fetchAll('', '', 0, 0, $filter);
 
-				print_barre_liste($langs->trans('SocieteRef'), $page, $_SERVER['PHP_SELF'], $param, $sortfield, $sortorder, '', $num, $nbtotalofrecords, 'title_accountancy.png', 0, '', '', $limit, 1);
+				print_barre_liste($langs->trans('SocieteRef'), $page, $_SERVER['PHP_SELF'], $param, $sortfield, $sortorder, '', '', '', 'title_accountancy.png', 0, '', '', $limit, 1);
 
 				// Definition of fields for lists
 				// Some fields are missing because they are not included in the database query
