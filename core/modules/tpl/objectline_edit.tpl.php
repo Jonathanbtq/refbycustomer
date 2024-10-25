@@ -270,7 +270,11 @@ $coldisplay++;
 		&nbsp;
 	<?php } ?>
 	</td>
-
+	<td>
+		<?php
+			print '<input size="3" type="text" clas="flat right" name="refcustom" id="refcustom" value="'.(GETPOSTISSET('refcustom') ? GETPOST('refcustom') : $line->refcustom).'"';
+		?>
+	</td>
 	<?php
 	if (getDolGlobalString('PRODUCT_USE_UNITS')) {
 		$unit_type = false;

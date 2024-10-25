@@ -40,3 +40,8 @@ MyPageName = My page name
 #
 MyWidget = My widget
 MyWidgetDescription = My widget description
+
+#
+# refbycustomer tpl
+#
+CustomerRef = Customer reference

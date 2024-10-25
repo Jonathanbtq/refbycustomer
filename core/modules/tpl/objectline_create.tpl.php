@@ -131,6 +131,7 @@ if ($nolinesbefore) {
 			<td class="linecoluttc right"><span id="title_up_ttc"><?php echo $langs->trans('PriceUTTC'); ?></span></td>
 		<?php } ?>
 		<td class="linecolqty right"><?php echo $langs->trans('Qty'); ?></td>
+		<td class="linecolCustomRef right"><?php echo $langs->trans('CustomerRef'); ?></td>
 		<?php
 		if (getDolGlobalInt('PRODUCT_USE_UNITS')) {
 			print '<td class="linecoluseunit left">';

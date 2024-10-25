@@ -369,6 +369,14 @@ if ((($line->info_bits & 2) != 2) && $line->special_code != 3) {
 }
 print '</td>';
 
+// Custom reference customer
+print '<td>';
+	$sql = 'SELECT * FROM '.MAIN_DB_PREFIX.'product_ref_by_customer WHERE fk_soc ='.$mysoc->rowid.' AND fk_product ='.$line->rowid;
+	$sqlres = $db->query($sql);
+
+	var_dump($sqlres);
+print '</td>';
+
 if (getDolGlobalString('PRODUCT_USE_UNITS')) {
 	print '<td class="linecoluseunit nowrap left">';
 	$label = $line->getLabelOfUnit('short');
