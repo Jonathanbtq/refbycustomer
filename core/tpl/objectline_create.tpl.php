@@ -480,6 +480,11 @@ if ($nolinesbefore) {
 	<?php $default_qty = (!getDolGlobalString('MAIN_OBJECTLINE_CREATE_EMPTY_QTY_BY_DEFAULT') ? 1 : ''); ?>
 	<input type="text" name="qty" id="qty" class="flat width40 right" value="<?php echo(GETPOSTISSET("qty") ? GETPOST("qty", 'alpha', 2) : $default_qty); ?>">
 	</td>
+
+	// Custom reference
+	<td class="nobottom linecolRefCustom right">
+	<input type="text" name="refcustom" id="refcustom" class="flat width60 left" value="">
+	</td>
 	<?php
 	if (getDolGlobalInt('PRODUCT_USE_UNITS')) {
 		$coldisplay++;

@@ -370,11 +370,13 @@ if ((($line->info_bits & 2) != 2) && $line->special_code != 3) {
 print '</td>';
 
 // Custom reference customer
-print '<td>';
-	$sql = 'SELECT * FROM '.MAIN_DB_PREFIX.'product_ref_by_customer WHERE fk_soc ='.$mysoc->rowid.' AND fk_product ='.$line->rowid;
-	$sqlres = $db->query($sql);
-
-	var_dump($sqlres);
+print '<td class="linecolqty nowraponall right">';
+	$sqlCustomRef = 'SELECT * FROM '.MAIN_DB_PREFIX.'product_ref_by_customer WHERE fk_soc ='.$object->thirdparty->id.' AND fk_product ='.$line->rowid;
+	$sqlres = $this->db->query($sqlCustomRef);
+	$ref = $this->db->fetch_object($sqlres);
+	if (!empty($ref)) {
+		print $ref->ref_customer_prd;
+	}
 print '</td>';
 
 if (getDolGlobalString('PRODUCT_USE_UNITS')) {
