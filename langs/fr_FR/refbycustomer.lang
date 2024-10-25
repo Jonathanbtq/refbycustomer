@@ -1,0 +1,47 @@
+# Translation file
+
+#
+# Generic
+#
+
+# Module label 'ModuleRefbycustomerName'
+ModuleRefbycustomerName = Refbycustomer
+# Module description 'ModuleRefbycustomerDesc'
+ModuleRefbycustomerDesc = Refbycustomer description
+
+#
+# Admin page
+#
+RefbycustomerSetup = Refbycustomer setup
+Settings = Settings
+RefbycustomerSetupPage = Refbycustomer setup page
+NewSection=New section
+REFBYCUSTOMER_MYPARAM1 = My param 1
+REFBYCUSTOMER_MYPARAM1Tooltip = My param 1 tooltip
+REFBYCUSTOMER_MYPARAM2=My param 2
+REFBYCUSTOMER_MYPARAM2Tooltip=My param 2 tooltip
+
+
+#
+# About page
+#
+About = About
+RefbycustomerAbout = About Refbycustomer
+RefbycustomerAboutPage = Refbycustomer about page
+
+#
+# Sample page
+#
+RefbycustomerArea = Home Refbycustomer
+MyPageName = My page name
+
+#
+# Sample widget
+#
+MyWidget = My widget
+MyWidgetDescription = My widget description
+
+#
+# refbycustomer tpl
+#
+CustomerRef = Référence Client
