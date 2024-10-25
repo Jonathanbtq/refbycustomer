@@ -312,19 +312,69 @@ class InterfaceRefbycustomerTriggers extends DolibarrTriggers
 		return 0;
 	}
 
-	public function lineorderInsert(string $action, $object, User $user, Translate $langs, Conf $conf)
+	public function setRefCustomProduct($object, $type, $user)
 	{
-		var_dump($_POST);
-		$refcustom = GETPOST('refcustom') ?? '';
+		switch ($type) {
+			case 'commande':
+				$comm = new Commande($this->db);
+				$comm->fetch($object->fk_commande);
+				break;
+			case 'facture':
+				$comm = new Facture($this->db);
+				$comm->fetch($object->fk_commande);
+				break;
+			case 'propal':
+				$comm = new Propal($this->db);
+				$comm->fetch($object->fk_commande);
+				break;
+			default:
+				$comm = null;
+				break;
+		}
+
+		if ($comm) {
+			$refcustom = GETPOST('refcustom') ?? '';
+			if (!empty($refcustom)) {
+				$sqlSelect = 'SELECT * FROM '.MAIN_DB_PREFIX.'product_ref_by_customer WHERE fk_product = '.$object->fk_product.' AND fk_soc ='. $comm->socid;
+				$sqlSelect = $this->db->query($sqlSelect);
+				$sqlSelect = $this->db->fetch_object($sqlSelect);
+	
+				if ($sqlSelect && $sqlSelect->ref_customer_prd === $refcustom) {
+					setEventMessage('Cette référence est déjà présente pour ce produit');
+				} else {
+					$sqlDel = 'DELETE FROM '.MAIN_DB_PREFIX.'product_ref_by_customer WHERE fk_product = '.$object->fk_product.' AND fk_soc ='. $comm->socid;
+					$sqlDel = $this->db->query($sqlDel);
+					if ($sqlDel) {
+						$sql = 'INSERT INTO '.MAIN_DB_PREFIX.'product_ref_by_customer (entity, datec, fk_soc, fk_product, fk_user, import_key, ref_customer_prd) VALUES("", "'.$this->db->idate(dol_now()).'" ,'.$comm->socid.', '.$object->fk_product.', '.$user->id.', 1,"'.$refcustom.'")';
+						if (!$this->db->query($sql)) {
+							setEventMessage('Une erreur est survenue lors de la sauvegarde des données', 'errors');
+						} else {
+							setEventMessage('Référence sauvegardé', 'mesgs');
+						}
+					}
+				}
+			}
+		}
 	}
 
-	public function lineorderUpdate()
+	public function handleLineAction(string $action, $object, User $user, Translate $langs, Conf $conf, string $type)
 	{
-	
+		$this->setRefCustomProduct($object, $type, $user);
+		return 0;
 	}
 
-	public function lineorderDelete()
+	public function __call($name, $arguments)
 	{
-	
+		$type = '';
+
+		if (strpos($name, 'lineorder') === 0) $type = 'commande'; 
+		if (strpos($name, 'linepropal') === 0) $type = 'propal'; 
+		if (strpos($name, 'linebill') === 0) $type = 'facture';
+
+		if (!empty($type)) {
+			return $this->handleLineAction($arguments[0], $arguments[1], $arguments[2], $arguments[3], $arguments[4], $type);
+		}
+
+		return 0;
 	}
 }
