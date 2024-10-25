@@ -314,9 +314,8 @@ class InterfaceRefbycustomerTriggers extends DolibarrTriggers
 
 	public function lineorderInsert(string $action, $object, User $user, Translate $langs, Conf $conf)
 	{
-		if ($action === '') {
-			'';
-		}
+		var_dump($_POST);
+		$refcustom = GETPOST('refcustom') ?? '';
 	}
 
 	public function lineorderUpdate()

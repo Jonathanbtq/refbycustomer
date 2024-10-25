@@ -272,7 +272,8 @@ $coldisplay++;
 	</td>
 	<td>
 		<?php
-			$sqlCustomRef = 'SELECT * FROM '.MAIN_DB_PREFIX.'product_ref_by_customer WHERE fk_soc ='.$object->thirdparty->id.' AND fk_product ='.$line->rowid;
+			$sqlCustomRef = 'SELECT * FROM '.MAIN_DB_PREFIX.'product_ref_by_customer';
+			$sqlCustomRef .= ' WHERE fk_soc ='.$object->thirdparty->id.' AND fk_product ='.$object->lines[$i]->fk_product;
 			$sqlres = $this->db->query($sqlCustomRef);
 			$ref = $this->db->fetch_object($sqlres);
 			if (!empty($ref->ref_customer_prd)) {

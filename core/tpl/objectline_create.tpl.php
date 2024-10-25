@@ -481,7 +481,9 @@ if ($nolinesbefore) {
 	<input type="text" name="qty" id="qty" class="flat width40 right" value="<?php echo(GETPOSTISSET("qty") ? GETPOST("qty", 'alpha', 2) : $default_qty); ?>">
 	</td>
 
+	<?php
 	// Custom reference
+	?>
 	<td class="nobottom linecolRefCustom right">
 	<input type="text" name="refcustom" id="refcustom" class="flat width60 left" value="">
 	</td>
