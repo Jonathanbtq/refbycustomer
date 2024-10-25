@@ -120,6 +120,9 @@ if (!empty($inputalsopricewithtax) && !getDolGlobalInt('MAIN_NO_INPUT_PRICE_WITH
 // Qty
 print '<th class="linecolqty right">'.$langs->trans('Qty').'</th>';
 
+// Custom reference Customer
+print '<th class="linecolrefcustom right">'.$langs->trans('refcustom').'</th>';
+
 // Unit
 if (getDolGlobalString('PRODUCT_USE_UNITS')) {
 	print '<th class="linecoluseunit left">'.$langs->trans('Unit').'</th>';

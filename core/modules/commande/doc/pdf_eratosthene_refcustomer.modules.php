@@ -676,6 +676,15 @@ class pdf_eratosthene_refcustomer extends ModelePDFCommandes
 						$nexY = max($pdf->GetY(), $nexY);
 					}
 
+					// Custom reference for customer
+					if ($this->getColumnStatus('customref')) {
+						$sql = 'SELECT * FROM '.MAIN_DB_PREFIX.'product_ref_by_customer';
+						$sql .= ' WHERE fk_soc ='.$object->thirdparty->id.' AND fk_product ='.$object->lines[$i]->rowid;
+						$sqlres = $this->db->query($sql);
+						$ref = $this->db->fetch_object($sqlres);
+						$this->printStdColumnContent($pdf, $curY, 'customref', $ref->ref_customer_prd);
+						$nexY = max($pdf->GetY(), $nexY);
+					}
 
 					// Unit
 					if ($this->getColumnStatus('unit')) {
@@ -1933,6 +1942,17 @@ class pdf_eratosthene_refcustomer extends ModelePDFCommandes
 			'status' => true,
 			'title' => array(
 				'textkey' => 'Qty'
+			),
+			'border-left' => true, // add left line separator
+		);
+
+		$rank += 10;
+		$this->cols['customref'] = array(
+			'rank' => $rank,
+			'width' => 30, // in mm
+			'status' => true,
+			'title' => array(
+				'textkey' => 'CustomerRef'
 			),
 			'border-left' => true, // add left line separator
 		);
