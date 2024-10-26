@@ -103,37 +103,42 @@ if (!$user->admin) {
 // Enter here all parameters in your setup page
 
 // Setup conf for selection of an URL
-$item = $formSetup->newItem('REFBYCUSTOMER_MYPARAM1');
-$item->fieldOverride = (empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'];
-$item->cssClass = 'minwidth500';
+// $item = $formSetup->newItem('REFBYCUSTOMER_MYPARAM1');
+// $item->fieldOverride = (empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'];
+// $item->cssClass = 'minwidth500';
 
-// Setup conf for selection of a simple string input
-$item = $formSetup->newItem('REFBYCUSTOMER_MYPARAM2');
-$item->defaultFieldValue = 'default value';
-$item->fieldAttr['placeholder'] = 'A placeholder here';
+// // Setup conf for selection of a simple string input
+// $item = $formSetup->newItem('REFBYCUSTOMER_MYPARAM2');
+// $item->defaultFieldValue = 'default value';
+// $item->fieldAttr['placeholder'] = 'A placeholder here';
 
-// Setup conf for selection of a simple textarea input but we replace the text of field title
-$item = $formSetup->newItem('REFBYCUSTOMER_MYPARAM3');
-$item->nameText = $item->getNameText().' more html text ';
+// // Setup conf for selection of a simple textarea input but we replace the text of field title
+// $item = $formSetup->newItem('REFBYCUSTOMER_MYPARAM3');
+// $item->nameText = $item->getNameText().' more html text ';
 
-// Setup conf for a selection of a thirdparty
-$item = $formSetup->newItem('REFBYCUSTOMER_MYPARAM4');
-$item->setAsThirdpartyType();
+// // Setup conf for a selection of a thirdparty
+// $item = $formSetup->newItem('REFBYCUSTOMER_MYPARAM4');
+// $item->setAsThirdpartyType();
 
 // Setup conf for a selection of a boolean
+$formSetup->newItem('REFBYCUSTOMER_MYPARAM1')->setAsYesNo();
+$formSetup->newItem('REFBYCUSTOMER_MYPARAM2')->setAsYesNo();
+$formSetup->newItem('REFBYCUSTOMER_MYPARAM3')->setAsYesNo();
+$formSetup->newItem('REFBYCUSTOMER_MYPARAM4')->setAsYesNo();
 $formSetup->newItem('REFBYCUSTOMER_MYPARAM5')->setAsYesNo();
+$formSetup->newItem('REFBYCUSTOMER_MYPARAM6')->setAsYesNo();
 
 // Setup conf for a selection of an email template of type thirdparty
-$formSetup->newItem('REFBYCUSTOMER_MYPARAM6')->setAsEmailTemplate('thirdparty');
+// $formSetup->newItem('REFBYCUSTOMER_MYPARAM6')->setAsEmailTemplate('thirdparty');
 
-// Setup conf for a selection of a secured key
-//$formSetup->newItem('REFBYCUSTOMER_MYPARAM7')->setAsSecureKey();
+// // Setup conf for a selection of a secured key
+// //$formSetup->newItem('REFBYCUSTOMER_MYPARAM7')->setAsSecureKey();
 
-// Setup conf for a selection of a product
-$formSetup->newItem('REFBYCUSTOMER_MYPARAM8')->setAsProduct();
+// // Setup conf for a selection of a product
+// $formSetup->newItem('REFBYCUSTOMER_MYPARAM8')->setAsProduct();
 
-// Add a title for a new section
-$formSetup->newItem('NewSection')->setAsTitle();
+// // Add a title for a new section
+// $formSetup->newItem('NewSection')->setAsTitle();
 
 $TField = array(
 	'test01' => $langs->trans('test01'),
@@ -145,24 +150,24 @@ $TField = array(
 );
 
 // Setup conf for a simple combo list
-$formSetup->newItem('REFBYCUSTOMER_MYPARAM9')->setAsSelect($TField);
+// $formSetup->newItem('REFBYCUSTOMER_MYPARAM9')->setAsSelect($TField);
 
-// Setup conf for a multiselect combo list
-$item = $formSetup->newItem('REFBYCUSTOMER_MYPARAM10');
-$item->setAsMultiSelect($TField);
-$item->helpText = $langs->transnoentities('REFBYCUSTOMER_MYPARAM10');
+// // Setup conf for a multiselect combo list
+// $item = $formSetup->newItem('REFBYCUSTOMER_MYPARAM10');
+// $item->setAsMultiSelect($TField);
+// $item->helpText = $langs->transnoentities('REFBYCUSTOMER_MYPARAM10');
 
-// Setup conf for a category selection
-$formSetup->newItem('REFBYCUSTOMER_CATEGORY_ID_XXX')->setAsCategory('product');
+// // Setup conf for a category selection
+// $formSetup->newItem('REFBYCUSTOMER_CATEGORY_ID_XXX')->setAsCategory('product');
 
 // Setup conf REFBYCUSTOMER_MYPARAM10
-$item = $formSetup->newItem('REFBYCUSTOMER_MYPARAM10');
-$item->setAsColor();
-$item->defaultFieldValue = '#FF0000';
-$item->nameText = $item->getNameText().' more html text ';
-$item->fieldInputOverride = '';
-$item->helpText = $langs->transnoentities('AnHelpMessage');
-//$item->fieldValue = '';
+// $item = $formSetup->newItem('REFBYCUSTOMER_MYPARAM10');
+// $item->setAsColor();
+// $item->defaultFieldValue = '#FF0000';
+// $item->nameText = $item->getNameText().' more html text ';
+// $item->fieldInputOverride = '';
+// $item->helpText = $langs->transnoentities('AnHelpMessage');
+// //$item->fieldValue = '';
 //$item->fieldAttr = array() ; // fields attribute only for compatible fields like input text
 //$item->fieldOverride = false; // set this var to override field output will override $fieldInputOverride and $fieldOutputOverride too
 //$item->fieldInputOverride = false; // set this var to override field input
