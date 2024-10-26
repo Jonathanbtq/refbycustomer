@@ -319,13 +319,25 @@ class InterfaceRefbycustomerTriggers extends DolibarrTriggers
 				$comm = new Commande($this->db);
 				$comm->fetch($object->fk_commande);
 				break;
+			case 'commandefourn':
+				$comm = new CommandeFournisseur($this->db);
+				$comm->fetch($object->fk_commande);
+				break;
 			case 'facture':
 				$comm = new Facture($this->db);
-				$comm->fetch($object->fk_commande);
+				$comm->fetch($object->fk_invoice);
+				break;
+			case 'facturesuppl':
+				$comm = new FactureFournisseur($this->db);
+				$comm->fetch($object->fk_facture_fourn);
 				break;
 			case 'propal':
 				$comm = new Propal($this->db);
-				$comm->fetch($object->fk_commande);
+				$comm->fetch($object->fk_propal);
+				break;
+			case 'propalsuppl':
+				$comm = new SupplierProposal($this->db);
+				$comm->fetch($object->fk_supplier_proposal);
 				break;
 			default:
 				$comm = null;
@@ -336,8 +348,9 @@ class InterfaceRefbycustomerTriggers extends DolibarrTriggers
 			$refcustom = GETPOST('refcustom') ?? '';
 			if (!empty($refcustom)) {
 				$sqlSelect = 'SELECT * FROM '.MAIN_DB_PREFIX.'product_ref_by_customer WHERE fk_product = '.$object->fk_product.' AND fk_soc ='. $comm->socid;
-				$sqlSelect = $this->db->query($sqlSelect);
-				$sqlSelect = $this->db->fetch_object($sqlSelect);
+				if ($sqlSelect = $this->db->query($sqlSelect)) {
+					$sqlSelect = $this->db->fetch_object($sqlSelect);
+				}
 	
 				if ($sqlSelect && $sqlSelect->ref_customer_prd === $refcustom) {
 					setEventMessage('Cette référence est déjà présente pour ce produit');
@@ -370,6 +383,9 @@ class InterfaceRefbycustomerTriggers extends DolibarrTriggers
 		if (strpos($name, 'lineorder') === 0) $type = 'commande'; 
 		if (strpos($name, 'linepropal') === 0) $type = 'propal'; 
 		if (strpos($name, 'linebill') === 0) $type = 'facture';
+		if (strpos($name, 'linebillSupplier') === 0) $type = 'facturesuppl';
+		if (strpos($name, 'lineorderSupplier') === 0) $type = 'commandefourn';
+		if (strpos($name, 'linesupplierProposalInsert') === 0) $type = 'propalsuppl';
 
 		if (!empty($type)) {
 			return $this->handleLineAction($arguments[0], $arguments[1], $arguments[2], $arguments[3], $arguments[4], $type);
