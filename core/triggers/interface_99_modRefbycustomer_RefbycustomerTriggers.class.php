@@ -325,7 +325,7 @@ class InterfaceRefbycustomerTriggers extends DolibarrTriggers
 				break;
 			case 'facture':
 				$comm = new Facture($this->db);
-				$comm->fetch($object->fk_invoice);
+				$comm->fetch($object->fk_facture);
 				break;
 			case 'facturesuppl':
 				$comm = new FactureFournisseur($this->db);
@@ -378,17 +378,57 @@ class InterfaceRefbycustomerTriggers extends DolibarrTriggers
 
 	public function __call($name, $arguments)
 	{
-		$type = '';
+		global $conf;
 
-		if (strpos($name, 'lineorder') === 0) $type = 'commande'; 
-		if (strpos($name, 'linepropal') === 0) $type = 'propal'; 
-		if (strpos($name, 'linebill') === 0) $type = 'facture';
-		if (strpos($name, 'linebillSupplier') === 0) $type = 'facturesuppl';
-		if (strpos($name, 'lineorderSupplier') === 0) $type = 'commandefourn';
-		if (strpos($name, 'linesupplierProposalInsert') === 0) $type = 'propalsuppl';
+		$typeMap = [
+			'lineorder' => 'commande',
+			'linepropal' => 'propal',
+			'linebill' => 'facture',
+			'linebillSupplier' => 'facturesuppl',
+			'lineorderSupplier' => 'commandefourn',
+			'linesupplierProposalInsert' => 'propalsuppl'
+		];
+	
+		// Trier le tableau en fonction de la longueur des clés, de la plus longue à la plus courte
+		// Eviter que linebillsuppl ne soit pas prit en compte car linebill est plus court
+		uksort($typeMap, function($a, $b) {
+			return strlen($b) - strlen($a);
+		});
 
-		if (!empty($type)) {
-			return $this->handleLineAction($arguments[0], $arguments[1], $arguments[2], $arguments[3], $arguments[4], $type);
+		$selectedType = null;
+		foreach ($typeMap as $key => $typeName) {
+			if (strpos($name, $key) === 0) {
+				$num = null;
+				
+				switch ($typeName) {
+					case 'commande';
+					$num = '1';
+					break;
+					case 'propal';
+					$num = '2';
+					break;
+					case 'facture';
+					$num = '3';
+					break;
+					case 'facturesuppl';
+					$num = '4';
+					break;
+					case 'commandefourn';
+					$num = '5';
+					break;
+					case 'propalsuppl';
+					$num = '6';
+					break;
+				}
+				if ($num && isset($conf->global->{"REFBYCUSTOMER_MYPARAM" . $num})) {
+					$selectedType = $typeName;
+					break;
+				}
+			}
+		}
+		
+		if ($selectedType) {
+			return $this->handleLineAction($arguments[0], $arguments[1], $arguments[2], $arguments[3], $arguments[4], $selectedType);
 		}
 
 		return 0;

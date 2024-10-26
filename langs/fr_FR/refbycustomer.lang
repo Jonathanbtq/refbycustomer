@@ -42,6 +42,16 @@ MyWidget = My widget
 MyWidgetDescription = My widget description
 
 #
+# refbycustomer setup
+#
+REFBYCUSTOMER_MYPARAM1 = Référence pour les commandes
+REFBYCUSTOMER_MYPARAM2 = Référence pour les factures
+REFBYCUSTOMER_MYPARAM3 = Référence pour les propositions commercials
+REFBYCUSTOMER_MYPARAM4 = Référence pour les commandes fournisseurs
+REFBYCUSTOMER_MYPARAM5 = Référence pour les factures fournisseurs
+REFBYCUSTOMER_MYPARAM6 = Référence pour les propositions commercials fournisseurs
+
+#
 # refbycustomer tpl
 #
 CustomerRef = Réf. custom Client
