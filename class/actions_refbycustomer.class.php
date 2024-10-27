@@ -215,6 +215,8 @@ class ActionsRefbycustomer extends CommonHookActions
 		if (in_array($parameters['currentcontext'], array('somecontext1', 'somecontext2'))) {		// do something only for the context 'somecontext1' or 'somecontext2'
 		}
 
+		var_dump($object);
+		
 		return $ret;
 	}
 
