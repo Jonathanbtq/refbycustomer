@@ -122,6 +122,12 @@ class modRefbycustomer extends DolibarrModules
 			'hooks' => array(
 				  'data' => array(
 				      'pdfgeneration',
+					  'ordercard',
+					  'invoicecard',
+					  'propalcard',
+					  'supplier_proposalcard',
+					  'ordersuppliercard',
+					  'invoicesuppliercard'
 				  ),
 				  'entity' => '0',
 			),
