@@ -99,46 +99,24 @@ if (!$user->admin) {
 	accessforbidden();
 }
 
-
-// Enter here all parameters in your setup page
-
-// Setup conf for selection of an URL
-// $item = $formSetup->newItem('REFBYCUSTOMER_MYPARAM1');
-// $item->fieldOverride = (empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'];
-// $item->cssClass = 'minwidth500';
-
-// // Setup conf for selection of a simple string input
-// $item = $formSetup->newItem('REFBYCUSTOMER_MYPARAM2');
-// $item->defaultFieldValue = 'default value';
-// $item->fieldAttr['placeholder'] = 'A placeholder here';
-
-// // Setup conf for selection of a simple textarea input but we replace the text of field title
-// $item = $formSetup->newItem('REFBYCUSTOMER_MYPARAM3');
-// $item->nameText = $item->getNameText().' more html text ';
-
-// // Setup conf for a selection of a thirdparty
-// $item = $formSetup->newItem('REFBYCUSTOMER_MYPARAM4');
-// $item->setAsThirdpartyType();
-
 // Setup conf for a selection of a boolean
+// Commande
 $formSetup->newItem('REFBYCUSTOMER_MYPARAM1')->setAsYesNo();
+// Facture
 $formSetup->newItem('REFBYCUSTOMER_MYPARAM2')->setAsYesNo();
+// Propal
 $formSetup->newItem('REFBYCUSTOMER_MYPARAM3')->setAsYesNo();
+// CommandeSupplier
 $formSetup->newItem('REFBYCUSTOMER_MYPARAM4')->setAsYesNo();
+// FactureSupplier
 $formSetup->newItem('REFBYCUSTOMER_MYPARAM5')->setAsYesNo();
+// PropalSupplier
 $formSetup->newItem('REFBYCUSTOMER_MYPARAM6')->setAsYesNo();
 
-// Setup conf for a selection of an email template of type thirdparty
-// $formSetup->newItem('REFBYCUSTOMER_MYPARAM6')->setAsEmailTemplate('thirdparty');
-
-// // Setup conf for a selection of a secured key
-// //$formSetup->newItem('REFBYCUSTOMER_MYPARAM7')->setAsSecureKey();
-
-// // Setup conf for a selection of a product
-// $formSetup->newItem('REFBYCUSTOMER_MYPARAM8')->setAsProduct();
-
-// // Add a title for a new section
-// $formSetup->newItem('NewSection')->setAsTitle();
+// Activer le changement de référence
+$formSetup->newItem('REFBYCUSTOMER_REFERENCECHANGE')->setAsYesNo();
+// Activer les 
+$formSetup->newItem('REFBYCUSTOMER_TPLACTIVE')->setAsYesNo();
 
 $TField = array(
 	'test01' => $langs->trans('test01'),

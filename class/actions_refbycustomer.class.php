@@ -113,6 +113,11 @@ class ActionsRefbycustomer extends CommonHookActions
 			// You can for example load and use call global vars like $fieldstosearchall to overwrite them, or update the database depending on $action and GETPOST values.
 		}
 
+		var_dump($conf->modules_parts);
+		if (!$conf->global->REFBYCUSTOMER_TPLACTIVE) {
+			unset($conf->modules_parts['tpl']['refbycustomer']);
+		}
+
 		if (!$error) {
 			$this->results = array('myreturn' => 999);
 			$this->resprints = 'A text to show';
@@ -215,7 +220,16 @@ class ActionsRefbycustomer extends CommonHookActions
 		if (in_array($parameters['currentcontext'], array('somecontext1', 'somecontext2'))) {		// do something only for the context 'somecontext1' or 'somecontext2'
 		}
 
-		var_dump($object);
+		if ($conf->global->REFBYCUSTOMER_REFERENCECHANGE) {
+			foreach ($object->lines as $line) {
+				$sqlSelect = 'SELECT * FROM '.MAIN_DB_PREFIX.'product_ref_by_customer WHERE fk_product = '.$line->fk_product.' AND fk_soc ='. $object->thirdparty->id;
+				if ($sqlSelect = $this->db->query($sqlSelect)) {
+					$sqlSelect = $this->db->fetch_object($sqlSelect);
+					$line->ref = $sqlSelect->ref_customer_prd;
+					$object->update($user, true);
+				}
+			}
+		}
 		
 		return $ret;
 	}
