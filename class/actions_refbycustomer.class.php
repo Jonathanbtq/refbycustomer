@@ -231,8 +231,11 @@ class ActionsRefbycustomer extends CommonHookActions
 						$sqlSelect = $this->db->fetch_object($sqlSelect);
 						$line->ref = $sqlSelect->ref_customer_prd;
 						$object->update($user, true);
+
 					}
 				}
+				// $object->generateDocument($object->model_pdf, $langs);
+				// $ret = -1;
 			}
 		}
 		
