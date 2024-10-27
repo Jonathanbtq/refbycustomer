@@ -104,13 +104,16 @@ class ActionsRefbycustomer extends CommonHookActions
 	{
 		global $conf, $user, $langs;
 
+		$contexts = explode(':', $parameters['context'] ?? '');
 		$error = 0; // Error counter
-		
-		/* print_r($parameters); print_r($object); echo "action: " . $action; */
-		// @phan-suppress-next-line PhanPluginEmptyStatementIf
-		if (in_array($parameters['currentcontext'], array('somecontext1', 'somecontext2'))) {	    // do something only for the context 'somecontext1' or 'somecontext2'
-			// Do what you want here...
-			// You can for example load and use call global vars like $fieldstosearchall to overwrite them, or update the database depending on $action and GETPOST values.
+
+		unset($conf->modules_parts['tpl']['refbycustomer']);
+
+		// ordercard = commande // invoicesuppliercard = facutrefournisseurcard // invoicecard = facturecard // propalcard = proposition commercial
+		if (array_intersect(['supplier_proposalcard', 'ordersuppliercard', 'invoicesuppliercard', 'ordercard', 'invoicecard', 'propalcard'], $contexts)) {
+			if ($conf->global->REFBYCUSTOMER_TPLACTIVE) {
+				$conf->modules_parts['tpl']['refbycustomer'] = '/refbycustomer/core/tpl/';
+			}
 		}
 
 		if (!$error) {
@@ -206,6 +209,7 @@ class ActionsRefbycustomer extends CommonHookActions
 
 		$outputlangs = $langs;
 
+		$contexts = explode(':', $parameters['context'] ?? '');
 		$ret = 0;
 		$deltemp = array();
 		dol_syslog(get_class($this).'::executeHooks action='.$action);
@@ -215,7 +219,25 @@ class ActionsRefbycustomer extends CommonHookActions
 		if (in_array($parameters['currentcontext'], array('somecontext1', 'somecontext2'))) {		// do something only for the context 'somecontext1' or 'somecontext2'
 		}
 
-		var_dump($object);
+		/**
+		 * Change the product line reference with the custom reference
+		 */
+		$contextUsed = ['supplier_proposalcard', 'ordersuppliercard', 'invoicesuppliercard', 'ordercard', 'invoicecard', 'propalcard'];
+		if (array_intersect($contextUsed, $contexts)) {
+			if ($conf->global->REFBYCUSTOMER_REFERENCECHANGE) {
+				foreach ($object->lines as $line) {
+					$sqlSelect = 'SELECT * FROM '.MAIN_DB_PREFIX.'product_ref_by_customer WHERE fk_product = '.$line->fk_product.' AND fk_soc ='. $object->thirdparty->id;
+					if ($sqlSelect = $this->db->query($sqlSelect)) {
+						$sqlSelect = $this->db->fetch_object($sqlSelect);
+						$line->ref = $sqlSelect->ref_customer_prd;
+						$object->update($user, true);
+
+					}
+				}
+				// $object->generateDocument($object->model_pdf, $langs);
+				// $ret = -1;
+			}
+		}
 		
 		return $ret;
 	}

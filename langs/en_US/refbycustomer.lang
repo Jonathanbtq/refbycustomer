@@ -45,3 +45,14 @@ MyWidgetDescription = My widget description
 # refbycustomer tpl
 #
 CustomerRef = Customer reference
+
+#
+# refbycustomer setup
+#
+REFBYCUSTOMER_MYPARAM1 = Reference for orders
+REFBYCUSTOMER_MYPARAM2 = Reference for invoices
+REFBYCUSTOMER_MYPARAM3 = Reference for commercial proposals
+REFBYCUSTOMER_MYPARAM4 = Reference for supplier orders
+REFBYCUSTOMER_MYPARAM5 = Reference for supplier invoices
+REFBYCUSTOMER_MYPARAM6 = Reference for supplier commercial proposals
+REFBYCUSTOMER_REFERENCECHANGE = Enable reference change PDF
