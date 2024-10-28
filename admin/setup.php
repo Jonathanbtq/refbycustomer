@@ -117,6 +117,8 @@ $formSetup->newItem('REFBYCUSTOMER_MYPARAM6')->setAsYesNo();
 $formSetup->newItem('REFBYCUSTOMER_REFERENCECHANGE')->setAsYesNo();
 // Activer les 
 $formSetup->newItem('REFBYCUSTOMER_TPLACTIVE')->setAsYesNo();
+// Activer les PDF
+$formSetup->newItem('REFBYCUSTOMER_PDFACTIVE')->setAsYesNo();
 
 $TField = array(
 	'test01' => $langs->trans('test01'),

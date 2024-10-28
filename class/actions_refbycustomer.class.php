@@ -107,12 +107,24 @@ class ActionsRefbycustomer extends CommonHookActions
 		$contexts = explode(':', $parameters['context'] ?? '');
 		$error = 0; // Error counter
 
+		/**
+		 * Desactiver les TPL, sauf si l'option est activé
+		 */
 		unset($conf->modules_parts['tpl']['refbycustomer']);
-
 		// ordercard = commande // invoicesuppliercard = facutrefournisseurcard // invoicecard = facturecard // propalcard = proposition commercial
 		if (array_intersect(['supplier_proposalcard', 'ordersuppliercard', 'invoicesuppliercard', 'ordercard', 'invoicecard', 'propalcard'], $contexts)) {
 			if ($conf->global->REFBYCUSTOMER_TPLACTIVE) {
 				$conf->modules_parts['tpl']['refbycustomer'] = '/refbycustomer/core/tpl/';
+			}
+		}
+
+		/**
+		 * Desactiver les models, sauf si l'option est activé
+		 */
+		unset($conf->modules_parts['models']['refbycustomer']);
+		if (array_intersect(['supplier_proposalcard', 'ordersuppliercard', 'invoicesuppliercard', 'ordercard', 'invoicecard', 'propalcard'], $contexts)) {
+			if ($conf->global->REFBYCUSTOMER_PDFACTIVE) {
+				$conf->modules_parts['models']['refbycustomer'] = '/refbycustomer/';
 			}
 		}
 
@@ -202,40 +214,33 @@ class ActionsRefbycustomer extends CommonHookActions
 	 *											=0 if OK but we want to process standard actions too,
 	 *											>0 if OK and we want to replace standard actions.
 	 */
-	public function beforePDFCreation($parameters, &$object, &$action)
+	public function defineColumnField($parameters, &$object, &$action)
 	{
-		global $conf, $user, $langs;
-		global $hookmanager;
+		global $conf, $user, $langs, $hookmanager;
 
 		$outputlangs = $langs;
-
 		$contexts = explode(':', $parameters['context'] ?? '');
 		$ret = 0;
-		$deltemp = array();
-		dol_syslog(get_class($this).'::executeHooks action='.$action);
-
-		/* print_r($parameters); print_r($object); echo "action: " . $action; */
-		// @phan-suppress-next-line PhanPluginEmptyStatementIf
-		if (in_array($parameters['currentcontext'], array('somecontext1', 'somecontext2'))) {		// do something only for the context 'somecontext1' or 'somecontext2'
-		}
+		$rank = 100;
 
 		/**
 		 * Change the product line reference with the custom reference
 		 */
 		$contextUsed = ['supplier_proposalcard', 'ordersuppliercard', 'invoicesuppliercard', 'ordercard', 'invoicecard', 'propalcard'];
-		if (array_intersect($contextUsed, $contexts)) {
-			if ($conf->global->REFBYCUSTOMER_REFERENCECHANGE) {
-				foreach ($object->lines as $line) {
-					$sqlSelect = 'SELECT * FROM '.MAIN_DB_PREFIX.'product_ref_by_customer WHERE fk_product = '.$line->fk_product.' AND fk_soc ='. $object->thirdparty->id;
-					if ($sqlSelect = $this->db->query($sqlSelect)) {
-						$sqlSelect = $this->db->fetch_object($sqlSelect);
-						$line->ref = $sqlSelect->ref_customer_prd;
-						$object->update($user, true);
-
-					}
-				}
-				// $object->generateDocument($object->model_pdf, $langs);
-				// $ret = -1;
+		if (array_intersect($contextUsed, $contexts) && in_array('pdfgeneration', $contexts)) {
+			/**
+			 * Si l'utilisation des PDF custom est actif ne pas utiliser le HOOK
+			 */
+			if ($conf->global->REFBYCUSTOMER_REFERENCECHANGE && !$conf->global->REFBYCUSTOMER_PDFACTIVE) {
+				$object->cols['customer_ref'] = [
+					'rank' => $rank,
+					'width' => 30,
+					'status' => true,
+					'title' => array(
+						'textkey' => 'CustomerRef'
+					),
+					'border-left' => true, // add left line separator
+				];
 			}
 		}
 		
@@ -252,24 +257,36 @@ class ActionsRefbycustomer extends CommonHookActions
 	 * 											=0 if OK but we want to process standard actions too,
 	 *											>0 if OK and we want to replace standard actions.
 	 */
-	public function afterPDFCreation($parameters, &$pdfhandler, &$action)
+	public function printPDFline($parameters, &$pdfhandler, &$action)
 	{
-		global $conf, $user, $langs;
-		global $hookmanager;
+		global $conf, $user, $langs, $hookmanager;
+
+		$contexts = explode(':', $parameters['context'] ?? '');
+		$ret = 0;
 
 		$outputlangs = $langs;
-
-		$ret = 0;
-		$deltemp = array();
-		dol_syslog(get_class($this).'::executeHooks action='.$action);
-
-		/* print_r($parameters); print_r($object); echo "action: " . $action; */
-		// @phan-suppress-next-line PhanPluginEmptyStatementIf
-		if (in_array($parameters['currentcontext'], array('somecontext1', 'somecontext2'))) {
-			// do something only for the context 'somecontext1' or 'somecontext2'
+		$contextUsed = ['supplier_proposalcard', 'ordersuppliercard', 'invoicesuppliercard', 'ordercard', 'invoicecard', 'propalcard'];
+		if (array_intersect($contextUsed, $contexts) && in_array('pdfgeneration', $contexts)) {
+			/**
+			 * Si l'utilisation des PDF custom est actif ne pas utiliser le HOOK
+			 */
+			if ($conf->global->REFBYCUSTOMER_REFERENCECHANGE && !$conf->global->REFBYCUSTOMER_PDFACTIVE) {
+				$sqlSelect = 'SELECT ref_customer_prd FROM '.MAIN_DB_PREFIX.'product_ref_by_customer 
+						WHERE fk_product = '.$parameters['object']->lines[$parameters['i']]->fk_product.' 
+						AND fk_soc = '.$parameters['object']->thirdparty->id;
+				
+				if ($result = $this->db->query($sqlSelect)) {
+					$data = $this->db->fetch_object($result);
+					if (!empty($data)) {
+						if (!empty($pdfhandler->getColumnStatus('customer_ref'))) {
+							$pdfhandler->printStdColumnContent($parameters['pdf'], $parameters['curY'], 'customer_ref', $data->ref_customer_prd);
+						}
+					}
+				}
+			}
 		}
 
-		return $ret;
+		return 0;
 	}
 
 

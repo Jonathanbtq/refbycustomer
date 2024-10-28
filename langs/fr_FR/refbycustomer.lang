@@ -51,7 +51,8 @@ REFBYCUSTOMER_MYPARAM4 = Référence pour les commandes fournisseurs
 REFBYCUSTOMER_MYPARAM5 = Référence pour les factures fournisseurs
 REFBYCUSTOMER_MYPARAM6 = Référence pour les propositions commerciales fournisseurs
 REFBYCUSTOMER_REFERENCECHANGE = Activer le changement de référence PDF
-REFBYCUSTOMER_TPLACTIVE = Activer les PDF de référence
+REFBYCUSTOMER_TPLACTIVE = Activer l'affichage réf. sur les listes
+REFBYCUSTOMER_PDFACTIVE = Activer l'affichage colonne sur les PDF
 
 #
 # refbycustomer tpl
