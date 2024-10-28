@@ -55,4 +55,5 @@ REFBYCUSTOMER_MYPARAM3 = Reference for commercial proposals
 REFBYCUSTOMER_MYPARAM4 = Reference for supplier orders
 REFBYCUSTOMER_MYPARAM5 = Reference for supplier invoices
 REFBYCUSTOMER_MYPARAM6 = Reference for supplier commercial proposals
-REFBYCUSTOMER_REFERENCECHANGE = Enable reference change PDF
+REFBYCUSTOMER_REFERENCECHANGE = Enable reference change list
+REFBYCUSTOMER_PDFACTIVE = Enable reference PDF
