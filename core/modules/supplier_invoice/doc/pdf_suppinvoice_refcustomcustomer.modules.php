@@ -110,15 +110,17 @@ class pdf_suppinvoice_refcustomcustomer extends ModelePDFSuppliersInvoices
 		$this->posxdesc = $this->marge_gauche + 1;
 
 		if (getDolGlobalInt('PRODUCT_USE_UNITS')) {
-			$this->posxtva = 99;
-			$this->posxup = 114;
-			$this->posxqty = 130;
-			$this->posxunit = 147;
+			$this->posxtva = 50;
+			$this->posxup = 80;
+			$this->posxqty = 90;
+			$this->posxcref = 117;
+			$this->posxunit = 120;
 		} else {
-			$this->posxtva = 106;
-			$this->posxup = 122;
-			$this->posxqty = 145;
-			$this->posxunit = 162;
+			$this->posxtva = 66;
+			$this->posxup = 82;
+			$this->posxqty = 105;
+			$this->posxcref = 122;
+			$this->posxunit = 150;
 		}
 		$this->posxdiscount = 162;
 		$this->postotalht = 174;
@@ -284,6 +286,7 @@ class pdf_suppinvoice_refcustomcustomer extends ModelePDFSuppliersInvoices
 					$this->posxtva += $delta;
 					$this->posxup += $delta;
 					$this->posxqty += $delta;
+					$this->posxcref += $delta;
 					$this->posxunit += $delta;
 					$this->posxdiscount += $delta;
 					// post of fields after are not modified, stay at same position
@@ -443,7 +446,22 @@ class pdf_suppinvoice_refcustomcustomer extends ModelePDFSuppliersInvoices
 					// Quantity
 					$qty = pdf_getlineqty($object, $i, $outputlangs, $hidedetails);
 					$pdf->SetXY($this->posxqty, $curY);
-					$pdf->MultiCell($this->posxunit - $this->posxqty - 0.8, 4, $qty, 0, 'R'); // Enough for 6 chars
+					$pdf->MultiCell($this->posxcref - $this->posxqty - 0.8, 4, $qty, 0, 'R'); // Enough for 6 chars
+
+					// Reference custom
+					$sql = 'SELECT * FROM '.MAIN_DB_PREFIX.'product_ref_by_customer';
+					$sql .= ' WHERE fk_soc ='.$object->thirdparty->id.' AND fk_product ='.$object->lines[$i]->fk_product;
+					$sqlres = $this->db->query($sql);
+					
+					$refcustom = '';
+					if (!empty($sqlres)) {
+						$ref = $this->db->fetch_object($sqlres);
+						if (!empty($ref->ref_customer_prd)) {
+							$refcustom = $ref->ref_customer_prd;
+						}
+					}
+					$pdf->SetXY($this->posxcref, $curY);
+					$pdf->MultiCell($this->posxunit - $this->posxcref - 0.8, 4, $refcustom, 0, 'R'); // Enough for 6 chars
 
 					// Unit
 					if (getDolGlobalInt('PRODUCT_USE_UNITS')) {
@@ -902,7 +920,13 @@ class pdf_suppinvoice_refcustomcustomer extends ModelePDFSuppliersInvoices
 		$pdf->line($this->posxqty - 1, $tab_top, $this->posxqty - 1, $tab_top + $tab_height);
 		if (empty($hidetop)) {
 			$pdf->SetXY($this->posxqty - 1, $tab_top + 1);
-			$pdf->MultiCell($this->posxunit - $this->posxqty - 1, 2, $outputlangs->transnoentities("Qty"), '', 'C');
+			$pdf->MultiCell($this->posxcref - $this->posxqty - 1, 2, $outputlangs->transnoentities("Qty"), '', 'C');
+		}
+
+		$pdf->line($this->posxcref - 1, $tab_top, $this->posxcref - 1, $tab_top + $tab_height);
+		if (empty($hidetop)) {
+			$pdf->SetXY($this->posxcref - 1, $tab_top + 1);
+			$pdf->MultiCell($this->posxunit - $this->posxcref - 1, 2, $outputlangs->transnoentities("customref"), '', 'C');
 		}
 
 		if (getDolGlobalInt('PRODUCT_USE_UNITS')) {
