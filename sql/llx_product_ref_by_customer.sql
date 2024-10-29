@@ -7,7 +7,7 @@ CREATE TABLE llx_product_ref_by_customer
     fk_product INT NOT NULL,
     fk_user INT,
     import_key TEXT,
-    ref_customer_prd TEXT NOT NULL,
+    ref_customer_prd VARCHAR(100) NOT NULL UNIQUE,
     tms TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_product_ref_customer_prd_bycustomer_societe
         FOREIGN KEY (fk_soc) REFERENCES llx_societe (rowid) ON UPDATE CASCADE,

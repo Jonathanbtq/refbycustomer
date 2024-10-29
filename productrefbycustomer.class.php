@@ -211,6 +211,53 @@ class Productrefbycustomer extends CommonObject
 		}
 	}
 
+	/**
+	 * Undocumented function
+	 *
+	 * @param [type] $id Id societe
+	 * @return void
+	 */
+	public function fetchBySoc($id, $idprod)
+	{
+		global $langs;
+
+		$sql = "SELECT";
+		$sql .= "*";
+		$sql .= " FROM ".$this->db->prefix()."product_ref_by_customer as t";
+		$sql .= " WHERE t.fk_soc = ".((int) $id);
+		$sql .= " AND t.fk_product = ".((int) $idprod);
+
+		dol_syslog(get_class($this)."::fetch", LOG_DEBUG);
+		$resql = $this->db->query($sql);
+		if ($resql) {
+			if ($this->db->num_rows($resql)) {
+				$obj = $this->db->fetch_object($resql);
+
+				$this->id = $obj->rowid;
+
+				$this->entity = $obj->entity;
+				$this->datec = $this->db->jdate($obj->datec);
+				$this->tms = $this->db->jdate($obj->tms);
+				$this->fk_product = $obj->fk_product;
+				$this->fk_soc = $obj->fk_soc;
+				$this->ref_customer_prd = $obj->ref_customer_prd;
+				$this->fk_user = $obj->fk_user;
+				$this->import_key = $obj->import_key;
+
+				$this->db->free($resql);
+
+				return $this;
+			} else {
+				$this->db->free($resql);
+
+				return 0;
+			}
+		} else {
+			$this->error = "Error ".$this->db->lasterror();
+			return -1;
+		}
+	}
+
 	// phpcs:disable PEAR.NamingConventions.ValidFunctionName.ScopeNotCamelCaps
 	/**
 	 * Load all customer prices in memory from database
