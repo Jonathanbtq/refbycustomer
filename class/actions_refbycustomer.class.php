@@ -289,8 +289,6 @@ class ActionsRefbycustomer extends CommonHookActions
 		return 0;
 	}
 
-
-
 	/**
 	 * Overload the loadDataForCustomReports function : returns data to complete the customreport tool
 	 *

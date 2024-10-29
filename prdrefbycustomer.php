@@ -156,6 +156,13 @@ if ($action == 'save_price') {
 		setEventMessages($langs->trans("ErrorFieldRequired", $langs->transnoentities("Supplier")), null, 'errors');
 	}
 
+	$soc = $prodcustref->fetchBySoc($id_fourn, $object->id);
+	if (!empty($soc)) {
+		$texttoshow = "Une référence existe déjà pour ce tier";
+		setEventMessages($texttoshow, null, 'errors');
+		$error++;
+	}
+
 	if (!$error) {
 		$db->begin();
 
@@ -545,32 +552,34 @@ if ($id > 0 || $ref) {
 						$id = $productfourn->id;
 						$productfourn = new Productrefbycustomer($db);
 						$productfourn->fetch($id);
-						print '<tr class="oddeven">';
-
-						// Date from
-						if (!empty($arrayfields['pfp.datec']['checked'])) {
-							print '<td>'.dol_print_date(($productfourn->datec ? $productfourn->datec : $productfourn->datec), 'dayhour', 'tzuserrel').'</td>';
+						if (!empty($productfourn)) {
+							print '<tr class="oddeven">';
+	
+							// Date from
+							if (!empty($arrayfields['pfp.datec']['checked'])) {
+								print '<td>'.dol_print_date(($productfourn->datec ? $productfourn->datec : $productfourn->datec), 'dayhour', 'tzuserrel').'</td>';
+							}
+	
+							// Supplier
+							if (!empty($arrayfields['s.nom']['checked'])) {
+								print '<td class="tdoverflowmax150">'.$productfourn->getSocNomUrl($productfourn->fk_soc, 1, 'supplier').'</td>';
+							}
+							// Supplier ref
+							print '<td class="tdoverflowmax150">'.$productfourn->ref_customer_prd.'</td>';
+	
+							// Modify-Remove
+							print '<td class="center nowraponall">';
+	
+							if ($usercancreate) {
+								print '<a class="editfielda" href="'.$_SERVER['PHP_SELF'].'?id='.((int) $object->id).'&socid='.((int) $productfourn->fk_soc).'&action=update_price&token='.newToken().'&rowid='.((int) $productfourn->id).'">'.img_edit()."</a>";
+								print ' &nbsp; ';
+								print '<a href="'.$_SERVER['PHP_SELF'].'?id='.((int) $object->id).'&socid='.((int) $productfourn->fk_soc).'&action=delete_customer_price&token='.newToken().'&rowid='.$productfourn->id.'">'.img_picto($langs->trans("Remove"), 'delete').'</a>';
+							}
+	
+							print '</td>';
+	
+							print '</tr>';
 						}
-
-						// Supplier
-						if (!empty($arrayfields['s.nom']['checked'])) {
-							print '<td class="tdoverflowmax150">'.$productfourn->getSocNomUrl($productfourn->fk_soc, 1, 'supplier').'</td>';
-						}
-						// Supplier ref
-						print '<td class="tdoverflowmax150">'.$productfourn->ref_customer_prd.'</td>';
-
-						// Modify-Remove
-						print '<td class="center nowraponall">';
-
-						if ($usercancreate) {
-							print '<a class="editfielda" href="'.$_SERVER['PHP_SELF'].'?id='.((int) $object->id).'&socid='.((int) $productfourn->fk_soc).'&action=update_price&token='.newToken().'&rowid='.((int) $productfourn->id).'">'.img_edit()."</a>";
-							print ' &nbsp; ';
-							print '<a href="'.$_SERVER['PHP_SELF'].'?id='.((int) $object->id).'&socid='.((int) $productfourn->fk_soc).'&action=delete_customer_price&token='.newToken().'&rowid='.$productfourn->id.'">'.img_picto($langs->trans("Remove"), 'delete').'</a>';
-						}
-
-						print '</td>';
-
-						print '</tr>';
 					}
 
 					if (empty($product_fourn_list)) {

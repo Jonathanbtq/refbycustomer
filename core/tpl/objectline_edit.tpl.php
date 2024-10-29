@@ -274,12 +274,13 @@ $coldisplay++;
 		<?php
 			$sqlCustomRef = 'SELECT * FROM '.MAIN_DB_PREFIX.'product_ref_by_customer';
 			$sqlCustomRef .= ' WHERE fk_soc ='.$object->thirdparty->id.' AND fk_product ='.$object->lines[$i]->fk_product;
-			$sqlres = $this->db->query($sqlCustomRef);
-			$ref = $this->db->fetch_object($sqlres);
+			if ($sqlres = $this->db->query($sqlCustomRef)) {
+				$ref = $this->db->fetch_object($sqlres);
+			}
 			if (!empty($ref->ref_customer_prd)) {
-				print '<input size="10" type="text" clas="flat right" name="refcustom" id="refcustom" value="'.$ref->ref_customer_prd.'"';
+				print '<p class="flat right" name="refcustom" id="refcustom" value="'.$ref->ref_customer_prd.'">'.$ref->ref_customer_prd.'</p>';
 			} else {
-				print '<input size="8">';
+				print '<p size="8"></p>';
 			}
 		?>
 	</td>

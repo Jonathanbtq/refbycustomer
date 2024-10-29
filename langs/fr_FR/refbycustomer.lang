@@ -7,7 +7,7 @@
 # Module label 'ModuleRefbycustomerName'
 ModuleRefbycustomerName = Refbycustomer
 # Module description 'ModuleRefbycustomerDesc'
-ModuleRefbycustomerDesc = Refbycustomer description
+ModuleRefbycustomerDesc = Add custom company ref. to your product
 
 #
 # Admin page
