@@ -1444,7 +1444,11 @@ class pdf_eratosthene_refcustomer extends ModelePDFCommandes
 		$pdf->SetFont('', '', $default_font_size - 1);
 
 		// Output Rect
-		$this->printRoundedRect($pdf, $this->marge_gauche, $tab_top, $this->page_largeur - $this->marge_gauche - $this->marge_droite, $tab_height, $this->corner_radius, $hidetop, $hidebottom, 'D'); // Rect takes a length in 3rd parameter and 4th parameter
+		if (DOL_VERSION < '20') {
+			$this->printRoundedRect($pdf, $this->marge_gauche, $tab_top, $this->page_largeur - $this->marge_gauche - $this->marge_droite, $tab_height, $this->corner_radius, $hidetop, $hidebottom, 'D'); // Rect takes a length in 3rd parameter and 4th parameter
+		} else {
+			$this->printRect($pdf, $this->marge_gauche, $tab_top, $this->page_largeur - $this->marge_gauche - $this->marge_droite, $tab_height, $this->corner_radius, $hidetop, $hidebottom, 'D'); // Rect takes a length in 3rd parameter and 4th parameter
+		}
 
 
 		$this->pdfTabTitles($pdf, $tab_top, $tab_height, $outputlangs, $hidetop);
@@ -2003,11 +2007,17 @@ class pdf_eratosthene_refcustomer extends ModelePDFCommandes
 			'border-left' => true, // add left line separator
 		);
 
+		$globalBool = '';
+		if (DOL_VERSION < 20) {
+			$globalBool = getDolGlobalBool('PDF_ORDER_SHOW_PRICE_INCL_TAX');
+		} else {
+			$globalBool = !getDolGlobalString('PDF_ORDER_SHOW_PRICE_INCL_TAX') ? false : true;
+		}
 		$rank += 1010; // add a big offset to be sure is the last col because default extrafield rank is 100
 		$this->cols['totalincltax'] = array(
 			'rank' => $rank,
 			'width' => 26, // in mm
-			'status' => getDolGlobalBool('PDF_ORDER_SHOW_PRICE_INCL_TAX'),
+			'status' => $globalBool,
 			'title' => array(
 				'textkey' => 'TotalTTCShort'
 			),

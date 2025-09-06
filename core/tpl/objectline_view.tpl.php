@@ -371,18 +371,18 @@ print '</td>';
 
 // Custom reference customer
 print '<td class="linecolrefbycustomer nowraponall right">';
-	$sqlCustomRef = 'SELECT * FROM '.MAIN_DB_PREFIX.'product_ref_by_customer';
-	$sqlCustomRef .= ' WHERE fk_soc ='.$object->thirdparty->id.' AND fk_product ='.$line->fk_product;
-	$sqlres = $this->db->query($sqlCustomRef);
-	if (!empty($sqlres)) {
-		$ref = $this->db->fetch_object($sqlres);
-		if (!empty($ref)) {
-			print $ref->ref_customer_prd;
-		} else {
-			print '';
-		}
-	} else {
-		print '';
+    if (!empty($line->fk_product)) {
+      $sqlCustomRef = 'SELECT * FROM '.MAIN_DB_PREFIX.'product_ref_by_customer';
+      $sqlCustomRef .= ' WHERE fk_soc ='.$object->thirdparty->id.' AND fk_product ='.$line->fk_product;
+      $sqlres = $this->db->query($sqlCustomRef);
+      if (!empty($sqlres)) {
+        $ref = $this->db->fetch_object($sqlres);
+        if (!empty($ref) && !empty($ref->ref_customer_prd)) {
+          print $ref->ref_customer_prd;
+        }
+      } else {
+        print '';
+      }
 	}
 print '</td>';
 

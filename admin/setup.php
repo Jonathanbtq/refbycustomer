@@ -120,15 +120,6 @@ $formSetup->newItem('REFBYCUSTOMER_TPLACTIVE')->setAsYesNo();
 // Activer les PDF
 $formSetup->newItem('REFBYCUSTOMER_PDFACTIVE')->setAsYesNo();
 
-$TField = array(
-	'test01' => $langs->trans('test01'),
-	'test02' => $langs->trans('test02'),
-	'test03' => $langs->trans('test03'),
-	'test04' => $langs->trans('test04'),
-	'test05' => $langs->trans('test05'),
-	'test06' => $langs->trans('test06'),
-);
-
 // Setup conf for a simple combo list
 // $formSetup->newItem('REFBYCUSTOMER_MYPARAM9')->setAsSelect($TField);
 
