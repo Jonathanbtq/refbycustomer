@@ -828,6 +828,23 @@ class pdf_facture_refcustomcustomer extends ModelePDFFactures
 						$nexY = max($pdf->GetY(), $nexY);
 					}
 
+					// Custom reference for customer
+					if ($this->getColumnStatus('customref')) {
+						$sql = 'SELECT * FROM '.MAIN_DB_PREFIX.'product_ref_by_customer';
+						$sql .= ' WHERE fk_soc ='.$object->thirdparty->id.' AND fk_product ='.$object->lines[$i]->fk_product;
+						$sqlres = $this->db->query($sql);
+						
+						$refcustom = '';
+						if (!empty($sqlres)) {
+							$ref = $this->db->fetch_object($sqlres);
+							if (!empty($ref->ref_customer_prd)) {
+								$refcustom = $ref->ref_customer_prd;
+							}
+						}
+						$this->printStdColumnContent($pdf, $curY, 'customref', $refcustom);
+						$nexY = max($pdf->GetY(), $nexY);
+					}
+
 					// Situation progress
 					if ($this->getColumnStatus('progress')) {
 						$progress = pdf_getlineprogress($object, $i, $outputlangs, $hidedetails);
@@ -2665,6 +2682,17 @@ class pdf_facture_refcustomcustomer extends ModelePDFFactures
 			'status' => true,
 			'title' => array(
 				'textkey' => 'Qty'
+			),
+			'border-left' => true, // add left line separator
+		);
+
+		$rank += 10;
+		$this->cols['customref'] = array(
+			'rank' => $rank,
+			'width' => 30, // in mm
+			'status' => true,
+			'title' => array(
+				'textkey' => 'CustomerRef'
 			),
 			'border-left' => true, // add left line separator
 		);
