@@ -812,7 +812,7 @@ if (!empty($usemargins) && $user->hasRight('margins', 'creer')) {
 				<?php } ?>
 				// Get the price for the product and display it
 				console.log("Load unit price and set it into #price_ht or #price_ttc for product id="+$(this).val()+" socid=<?php print $object->socid; ?>");
-				$.post('<?php echo DOL_URL_ROOT; ?>/product/ajax/products.php?action=fetch',
+				$.post('<?php echo DOL_URL_ROOT; ?>/custom/refbycustomer/product/ajax/products.php?action=fetch',
 					{ 'id': $(this).val(), 'socid': <?php print $object->socid; ?>, 'token': '<?php print currentToken(); ?>', 'addalsovatforthirdpartyid': 1 },
 					function(data) {
 						console.log("objectline_create.tpl Load unit price ends, we got value ht="+data.price_ht+" ttc="+data.price_ttc+" pricebasetype="+data.pricebasetype);
@@ -835,6 +835,8 @@ if (!empty($usemargins) && $user->hasRight('margins', 'creer')) {
 							jQuery('#date_start').removeClass('inputmandatory');
 							jQuery('#date_end').removeClass('inputmandatory');
 						}
+
+						jQuery("#refcustom").val(data.refbycustomer);
 
 						if (<?php echo (int) $inputalsopricewithtax; ?> == 1 && data.pricebasetype == 'TTC' && <?php print getDolGlobalInt('MAIN_NO_INPUT_PRICE_WITH_TAX') ? 'false' : 'true'; ?>) {
 							console.log("objectline_create.tpl set content of price_ttc");
