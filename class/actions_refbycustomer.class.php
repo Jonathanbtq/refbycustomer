@@ -114,9 +114,7 @@ class ActionsRefbycustomer extends CommonHookActions
 		// ordercard = commande // invoicesuppliercard = facutrefournisseurcard // invoicecard = facturecard // propalcard = proposition commercial
 		if (array_intersect(['supplier_proposalcard', 'ordersuppliercard', 'invoicesuppliercard', 'ordercard', 'invoicecard', 'propalcard'], $contexts)) {
 			$active = false;
-			var_dump($conf->global->REFBYCUSTOMER_PROPALFOURN);
 			foreach ($contexts as $context) {
-				var_dump($active);
 				switch($context) {
 					case 'supplier_proposalcard':
 						if ($conf->global->REFBYCUSTOMER_PROPALFOURN) {
@@ -151,7 +149,6 @@ class ActionsRefbycustomer extends CommonHookActions
 				}
 			}
 
-			var_dump($active);
 			if ($conf->global->REFBYCUSTOMER_TPLACTIVE && $active) {
 				$conf->modules_parts['tpl']['refbycustomer'] = '/refbycustomer/core/tpl/';
 			}
@@ -297,6 +294,8 @@ class ActionsRefbycustomer extends CommonHookActions
 		if (array_intersect($contextUsed, $contexts) && in_array('pdfgeneration', $contexts)) {
 			/**
 			 * Si l'utilisation des PDF custom est actif ne pas utiliser le HOOK
+			 * Les PDF se verront attribués une nouvelle colonne "référence"
+			 * Sans utiliser les PDF custom
 			 */
 			if ($conf->global->REFBYCUSTOMER_REFERENCECHANGE && !$conf->global->REFBYCUSTOMER_PDFACTIVE) {
 				$object->cols['customer_ref'] = [

@@ -46,14 +46,10 @@ require_once DOL_DOCUMENT_ROOT.'/product/dynamic_price/class/price_parser.class.
 // Net Logic
 include_once './Productrefbycustomer.class.php';
 
-if (isModEnabled('barcode')) {
-	dol_include_once('/core/class/html.formbarcode.class.php');
-}
-
 global $langs;
 
 // Load translation files required by the page
-$langs->loadLangs(['main', 'dict', 'bills', 'products', 'companies', 'propal', 'orders', 'contracts', 'interventions', 'deliveries', 'sendings', 'projects', 'productbatch', 'infraspackplus@infraspackplus', 'refbycustomer@refbycustomer']);
+$langs->loadLangs(['main', 'dict', 'bills', 'products', 'companies', 'propal', 'orders', 'contracts', 'interventions', 'deliveries', 'sendings', 'projects', 'productbatch', 'refbycustomer@refbycustomer']);
 
 $id = GETPOST('id', 'int');
 $ref = GETPOST('ref', 'alpha');
