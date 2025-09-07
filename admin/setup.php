@@ -101,17 +101,17 @@ if (!$user->admin) {
 
 // Setup conf for a selection of a boolean
 // Commande
-$formSetup->newItem('REFBYCUSTOMER_MYPARAM1')->setAsYesNo();
+$formSetup->newItem('REFBYCUSTOMER_COMMANDE')->setAsYesNo();
 // Facture
-$formSetup->newItem('REFBYCUSTOMER_MYPARAM2')->setAsYesNo();
+$formSetup->newItem('REFBYCUSTOMER_FACTURE')->setAsYesNo();
 // Propal
-$formSetup->newItem('REFBYCUSTOMER_MYPARAM3')->setAsYesNo();
+$formSetup->newItem('REFBYCUSTOMER_PROPAL')->setAsYesNo();
 // CommandeSupplier
-$formSetup->newItem('REFBYCUSTOMER_MYPARAM4')->setAsYesNo();
+$formSetup->newItem('REFBYCUSTOMER_COMMANDEFOURN')->setAsYesNo();
 // FactureSupplier
-$formSetup->newItem('REFBYCUSTOMER_MYPARAM5')->setAsYesNo();
+$formSetup->newItem('REFBYCUSTOMER_FACTUREFOURN')->setAsYesNo();
 // PropalSupplier
-$formSetup->newItem('REFBYCUSTOMER_MYPARAM6')->setAsYesNo();
+$formSetup->newItem('REFBYCUSTOMER_PROPALFOURN')->setAsYesNo();
 
 // Activer le changement de référence
 $formSetup->newItem('REFBYCUSTOMER_REFERENCECHANGE')->setAsYesNo();

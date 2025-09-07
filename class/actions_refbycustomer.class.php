@@ -113,7 +113,46 @@ class ActionsRefbycustomer extends CommonHookActions
 		unset($conf->modules_parts['tpl']['refbycustomer']);
 		// ordercard = commande // invoicesuppliercard = facutrefournisseurcard // invoicecard = facturecard // propalcard = proposition commercial
 		if (array_intersect(['supplier_proposalcard', 'ordersuppliercard', 'invoicesuppliercard', 'ordercard', 'invoicecard', 'propalcard'], $contexts)) {
-			if ($conf->global->REFBYCUSTOMER_TPLACTIVE) {
+			$active = false;
+			var_dump($conf->global->REFBYCUSTOMER_PROPALFOURN);
+			foreach ($contexts as $context) {
+				var_dump($active);
+				switch($context) {
+					case 'supplier_proposalcard':
+						if ($conf->global->REFBYCUSTOMER_PROPALFOURN) {
+							$active = true;
+						}
+						break;
+					case 'ordersuppliercard':
+						if ($conf->global->REFBYCUSTOMER_COMMANDEFOURN) {
+							$active = true;
+						}
+						break;
+					case 'invoicesuppliercard':
+						if ($conf->global->REFBYCUSTOMER_FACTUREFOURN) {
+							$active = true;
+						}
+						break;
+					case 'ordercard':
+						if ($conf->global->REFBYCUSTOMER_COMMANDE) {
+							$active = true;
+						}
+						break;
+					case 'invoicecard':
+						if ($conf->global->REFBYCUSTOMER_FACTURE) {
+							$active = true;
+						}
+						break;
+					case 'propalcard':
+						if ($conf->global->REFBYCUSTOMER_PROPAL) {
+							$active = true;
+						}
+						break;
+				}
+			}
+
+			var_dump($active);
+			if ($conf->global->REFBYCUSTOMER_TPLACTIVE && $active) {
 				$conf->modules_parts['tpl']['refbycustomer'] = '/refbycustomer/core/tpl/';
 			}
 		}
@@ -221,18 +260,7 @@ class ActionsRefbycustomer extends CommonHookActions
 
 		$contexts = explode(':', $parameters['context'] ?? '');
 		if (array_intersect(['supplier_proposalcard', 'ordersuppliercard', 'invoicesuppliercard', 'ordercard', 'invoicecard', 'propalcard'], $contexts)) {
-			?>
-				<script>
-					const div = document.querySelectorAll('.linecolqty');
-					if (div) {
-						div.forEach((div) => {
-							console.log(div);
-						})
-					} else {
-						
-					}
-				</script>
-			<?php
+			
 		}
 
 		if (!$error) {
