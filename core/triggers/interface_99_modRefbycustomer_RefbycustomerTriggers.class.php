@@ -346,7 +346,7 @@ class InterfaceRefbycustomerTriggers extends DolibarrTriggers
 
 		if ($comm) {
 			$refcustom = GETPOST('refcustom') ?? '';
-			if (!empty($refcustom)) {
+			if (!empty($refcustom) && !empty($object->fk_product) && !empty($comm->socid)) {
 				$sqlSelect = 'SELECT * FROM '.MAIN_DB_PREFIX.'product_ref_by_customer WHERE fk_product = '.$object->fk_product.' AND fk_soc ='. $comm->socid;
 				if ($sqlSelect = $this->db->query($sqlSelect)) {
 					$sqlSelect = $this->db->fetch_object($sqlSelect);
