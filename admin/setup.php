@@ -99,7 +99,7 @@ if (!$user->admin) {
 	accessforbidden();
 }
 
-// Setup conf for a selection of a boolean
+// Setup for module refbycustomer
 // Commande
 $formSetup->newItem('REFBYCUSTOMER_COMMANDE')->setAsYesNo();
 // Facture
