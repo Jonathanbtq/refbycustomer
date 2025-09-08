@@ -257,17 +257,14 @@ if ($action == 'fetch' && !empty($id)) {
 		}
 
 		// Récupération de la référence customer
+		$refbycustomer = '';
 		$id_societe = GETPOST('socid');
 		if (!empty($id_societe)) {
 			$sqlCustomRef = 'SELECT * FROM '.MAIN_DB_PREFIX.'product_ref_by_customer';
 			$sqlCustomRef .= ' WHERE fk_soc ='.$id_societe.' AND fk_product ='.$object->id;
 			$sqlres = $db->getRow($sqlCustomRef);
-			if (!empty($sqlres)) {
-				if (!empty($sqlres)) {
-					$refbycustomer = $sqlres->ref_customer_prd;
-				} else {
-					print '';
-				}
+			if (!empty($sqlres) && !empty($sqlres->ref_customer_prd)) {
+				$refbycustomer = $sqlres->ref_customer_prd;
 			} else {
 				print '';
 			}

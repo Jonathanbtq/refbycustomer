@@ -99,54 +99,30 @@ if (!$user->admin) {
 	accessforbidden();
 }
 
-// Setup conf for a selection of a boolean
+// Setup for module refbycustomer
+// Activer l'affichage des référence sur
 // Commande
-$formSetup->newItem('REFBYCUSTOMER_MYPARAM1')->setAsYesNo();
+$formSetup->newItem('REFBYCUSTOMER_COMMANDE')->setAsYesNo();
 // Facture
-$formSetup->newItem('REFBYCUSTOMER_MYPARAM2')->setAsYesNo();
+$formSetup->newItem('REFBYCUSTOMER_FACTURE')->setAsYesNo();
 // Propal
-$formSetup->newItem('REFBYCUSTOMER_MYPARAM3')->setAsYesNo();
+$formSetup->newItem('REFBYCUSTOMER_PROPAL')->setAsYesNo();
 // CommandeSupplier
-$formSetup->newItem('REFBYCUSTOMER_MYPARAM4')->setAsYesNo();
+$formSetup->newItem('REFBYCUSTOMER_COMMANDEFOURN')->setAsYesNo();
 // FactureSupplier
-$formSetup->newItem('REFBYCUSTOMER_MYPARAM5')->setAsYesNo();
+$formSetup->newItem('REFBYCUSTOMER_FACTUREFOURN')->setAsYesNo();
 // PropalSupplier
-$formSetup->newItem('REFBYCUSTOMER_MYPARAM6')->setAsYesNo();
+$formSetup->newItem('REFBYCUSTOMER_PROPALFOURN')->setAsYesNo();
 
 // Activer le changement de référence
+// Création PDF colonnes si les PDF customs ne sont pas utilisés
 $formSetup->newItem('REFBYCUSTOMER_REFERENCECHANGE')->setAsYesNo();
-// Activer les 
+// Activer les colonnes supp (TPL)
 $formSetup->newItem('REFBYCUSTOMER_TPLACTIVE')->setAsYesNo();
 // Activer les PDF
 $formSetup->newItem('REFBYCUSTOMER_PDFACTIVE')->setAsYesNo();
 
-// Setup conf for a simple combo list
-// $formSetup->newItem('REFBYCUSTOMER_MYPARAM9')->setAsSelect($TField);
-
-// // Setup conf for a multiselect combo list
-// $item = $formSetup->newItem('REFBYCUSTOMER_MYPARAM10');
-// $item->setAsMultiSelect($TField);
-// $item->helpText = $langs->transnoentities('REFBYCUSTOMER_MYPARAM10');
-
-// // Setup conf for a category selection
-// $formSetup->newItem('REFBYCUSTOMER_CATEGORY_ID_XXX')->setAsCategory('product');
-
-// Setup conf REFBYCUSTOMER_MYPARAM10
-// $item = $formSetup->newItem('REFBYCUSTOMER_MYPARAM10');
-// $item->setAsColor();
-// $item->defaultFieldValue = '#FF0000';
-// $item->nameText = $item->getNameText().' more html text ';
-// $item->fieldInputOverride = '';
-// $item->helpText = $langs->transnoentities('AnHelpMessage');
-// //$item->fieldValue = '';
-//$item->fieldAttr = array() ; // fields attribute only for compatible fields like input text
-//$item->fieldOverride = false; // set this var to override field output will override $fieldInputOverride and $fieldOutputOverride too
-//$item->fieldInputOverride = false; // set this var to override field input
-//$item->fieldOutputOverride = false; // set this var to override field output
-
-
 $setupnotempty += count($formSetup->items);
-
 
 $dirmodels = array_merge(array('/'), (array) $conf->modules_parts['models']);
 

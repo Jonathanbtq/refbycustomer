@@ -16,9 +16,7 @@ RefbycustomerSetup = Refbycustomer setup
 Settings = Settings
 RefbycustomerSetupPage = Refbycustomer setup page
 NewSection=New section
-REFBYCUSTOMER_MYPARAM1 = My param 1
 REFBYCUSTOMER_MYPARAM1Tooltip = My param 1 tooltip
-REFBYCUSTOMER_MYPARAM2=My param 2
 REFBYCUSTOMER_MYPARAM2Tooltip=My param 2 tooltip
 
 
@@ -44,12 +42,12 @@ MyWidgetDescription = My widget description
 #
 # refbycustomer setup
 #
-REFBYCUSTOMER_MYPARAM1 = Référence pour les commandes
-REFBYCUSTOMER_MYPARAM2 = Référence pour les factures
-REFBYCUSTOMER_MYPARAM3 = Référence pour les propositions commerciales
-REFBYCUSTOMER_MYPARAM4 = Référence pour les commandes fournisseurs
-REFBYCUSTOMER_MYPARAM5 = Référence pour les factures fournisseurs
-REFBYCUSTOMER_MYPARAM6 = Référence pour les propositions commerciales fournisseurs
+REFBYCUSTOMER_COMMANDE = Référence pour les commandes
+REFBYCUSTOMER_FACTURE = Référence pour les factures
+REFBYCUSTOMER_PROPAL = Référence pour les propositions commerciales
+REFBYCUSTOMER_COMMANDEFOURN = Référence pour les commandes fournisseurs
+REFBYCUSTOMER_FACTUREFOURN = Référence pour les factures fournisseurs
+REFBYCUSTOMER_PROPALFOURN = Référence pour les propositions commerciales fournisseurs
 REFBYCUSTOMER_REFERENCECHANGE = Activer le changement de référence PDF
 REFBYCUSTOMER_TPLACTIVE = Activer l'affichage réf. sur les listes
 REFBYCUSTOMER_PDFACTIVE = Activer l'affichage colonne sur les PDF

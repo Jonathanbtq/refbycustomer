@@ -113,7 +113,43 @@ class ActionsRefbycustomer extends CommonHookActions
 		unset($conf->modules_parts['tpl']['refbycustomer']);
 		// ordercard = commande // invoicesuppliercard = facutrefournisseurcard // invoicecard = facturecard // propalcard = proposition commercial
 		if (array_intersect(['supplier_proposalcard', 'ordersuppliercard', 'invoicesuppliercard', 'ordercard', 'invoicecard', 'propalcard'], $contexts)) {
-			if ($conf->global->REFBYCUSTOMER_TPLACTIVE) {
+			$active = false;
+			foreach ($contexts as $context) {
+				switch($context) {
+					case 'supplier_proposalcard':
+						if ($conf->global->REFBYCUSTOMER_PROPALFOURN) {
+							$active = true;
+						}
+						break;
+					case 'ordersuppliercard':
+						if ($conf->global->REFBYCUSTOMER_COMMANDEFOURN) {
+							$active = true;
+						}
+						break;
+					case 'invoicesuppliercard':
+						if ($conf->global->REFBYCUSTOMER_FACTUREFOURN) {
+							$active = true;
+						}
+						break;
+					case 'ordercard':
+						if ($conf->global->REFBYCUSTOMER_COMMANDE) {
+							$active = true;
+						}
+						break;
+					case 'invoicecard':
+						if ($conf->global->REFBYCUSTOMER_FACTURE) {
+							$active = true;
+						}
+						break;
+					case 'propalcard':
+						if ($conf->global->REFBYCUSTOMER_PROPAL) {
+							$active = true;
+						}
+						break;
+				}
+			}
+
+			if ($conf->global->REFBYCUSTOMER_TPLACTIVE && $active) {
 				$conf->modules_parts['tpl']['refbycustomer'] = '/refbycustomer/core/tpl/';
 			}
 		}
@@ -221,18 +257,7 @@ class ActionsRefbycustomer extends CommonHookActions
 
 		$contexts = explode(':', $parameters['context'] ?? '');
 		if (array_intersect(['supplier_proposalcard', 'ordersuppliercard', 'invoicesuppliercard', 'ordercard', 'invoicecard', 'propalcard'], $contexts)) {
-			?>
-				<script>
-					const div = document.querySelectorAll('.linecolqty');
-					if (div) {
-						div.forEach((div) => {
-							console.log(div);
-						})
-					} else {
-						
-					}
-				</script>
-			<?php
+			
 		}
 
 		if (!$error) {
@@ -269,6 +294,8 @@ class ActionsRefbycustomer extends CommonHookActions
 		if (array_intersect($contextUsed, $contexts) && in_array('pdfgeneration', $contexts)) {
 			/**
 			 * Si l'utilisation des PDF custom est actif ne pas utiliser le HOOK
+			 * Les PDF se verront attribués une nouvelle colonne "référence"
+			 * Sans utiliser les PDF custom
 			 */
 			if ($conf->global->REFBYCUSTOMER_REFERENCECHANGE && !$conf->global->REFBYCUSTOMER_PDFACTIVE) {
 				$object->cols['customer_ref'] = [
